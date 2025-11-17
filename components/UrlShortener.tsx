@@ -13,6 +13,7 @@ export default function UrlShortener() {
     const [newUrl, setNewUrl] = useState('')
 
     const pathName = usePathname()
+    console.log(`PathName is ${pathName}`)
 
     function isValidUrl(url: string) {
         try {

@@ -27,21 +27,16 @@ export default function UrlShortener() {
         /* Check the URL */
         e.preventDefault()
         setMessage('')
-        if (isValidUrl(url)) {
-            const res = await checkDataBase({url, alias})
-            if (res.success) {
-                /* URL is valid and Alias exist */
-                setMessage("Success!")
-                setNewUrl(`${baseUrl}${alias}`)
-            }
-            else {
-                if (res.error) {
-                    setMessage(res.error)
-                }
-            }
+        const res = await checkDataBase({url, alias})
+        if (res.success) {
+            /* URL is valid and Alias exist */
+            setMessage("Success!")
+            setNewUrl(`${baseUrl}${alias}`)
         }
         else {
-            setMessage("Invalid URL!!")
+            if (res.error) {
+                setMessage(res.error)
+            }
         }
     }
 

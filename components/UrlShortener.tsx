@@ -3,7 +3,6 @@
 import {useState} from 'react'
 import {checkDataBase} from "@/lib/checkDataBase";
 import Link from "next/link";
-import {usePathname} from "next/navigation";
 
 export default function UrlShortener() {
 
@@ -12,7 +11,7 @@ export default function UrlShortener() {
     const [message, setMessage] = useState('')
     const [newUrl, setNewUrl] = useState('')
 
-    const pathName = window.location.href
+    let pathName;
 
     function isValidUrl(url: string) {
         try {
@@ -26,6 +25,7 @@ export default function UrlShortener() {
     const handleSubmit = async (e: React.FormEvent) => {
         /* Check the URL */
         e.preventDefault()
+        pathName = window.location.href
         setMessage('')
         if (isValidUrl(url)) {
             const res = await checkDataBase({url, alias})

@@ -8,6 +8,19 @@ export async function checkDataBase({ url, alias }: { url: string, alias: string
         return { success: false, error : "Please Key In An Alias!"}
     }
 
+    function isValidUrl(url: string) {
+        try {
+            new URL(url);
+            return true;
+        } catch {
+            return false;
+        }
+    }
+    if (!isValidUrl(url)) {
+        return { success: false, error: "Invalid URL!!" };
+    }
+
+
     const collection = await getCollection(ALIAS_COLLECTION);
     const existing = await collection.findOne({ alias });
 

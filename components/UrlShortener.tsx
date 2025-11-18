@@ -1,6 +1,6 @@
 "use client"
 
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import {checkDataBase} from "@/lib/checkDataBase";
 import Link from "next/link";
 
@@ -10,8 +10,9 @@ export default function UrlShortener() {
     const [alias, setAlias] = useState('')
     const [message, setMessage] = useState('')
     const [newUrl, setNewUrl] = useState('')
+    const [baseUrl, setBaseUrl] = useState('')
 
-    let pathName;
+    useEffect(() => {setBaseUrl(window.location.href)}, [])
 
     function isValidUrl(url: string) {
         try {
@@ -25,14 +26,13 @@ export default function UrlShortener() {
     const handleSubmit = async (e: React.FormEvent) => {
         /* Check the URL */
         e.preventDefault()
-        pathName = window.location.href
         setMessage('')
         if (isValidUrl(url)) {
             const res = await checkDataBase({url, alias})
             if (res.success) {
                 /* URL is valid and Alias exist */
                 setMessage("Success!")
-                setNewUrl(`${pathName}${alias}`)
+                setNewUrl(`${baseUrl}${alias}`)
             }
             else {
                 if (res.error) {
@@ -61,7 +61,7 @@ export default function UrlShortener() {
                 <div>
                     <p className = "font-bold">Please Provide Your Alias: </p>
                     <div className="flex flex-row justify-center">
-                        <p>{pathName}</p>
+                        <p>{baseUrl}</p>
                         <label htmlFor="alias"></label>
                         <input
                             id="alias"
